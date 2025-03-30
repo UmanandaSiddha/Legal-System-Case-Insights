@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import AuthButtons from "../AuthButtons/Login";
+import AuthButtons from "../AuthButtons/AuthButtons";
 
 const Navbar = () => {
   return (
-    <div className="w-full h-20 bg-white shadow-md flex justify-between items-center px-8 sticky top-0">
+    <div className="w-full h-20 shadow-md flex justify-between items-center px-8 sticky top-0">
       {/* Logo */}
       <div className="text-gray-600 text-lg font-semibold">Legal</div>
 
