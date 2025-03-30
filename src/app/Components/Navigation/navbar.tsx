@@ -11,17 +11,17 @@ const Navbar = () => {
       {/* Navigation Links */}
       <ul className="flex gap-x-8 text-gray-700">
         <li>
-          <Link href="/LandingPage" className="hover:text-blue-600 transition">
+          <Link href="/LandingPage" className="hover:text-[#5C53E9] transition">
             Home
           </Link>
         </li>
         <li>
-          <Link href="/About" className="hover:text-blue-600 transition">
+          <Link href="/About" className="hover:text-[#5C53E9] transition">
             About
           </Link>
         </li>
         <li>
-          <Link href="/FAQ" className="hover:text-blue-600 transition">
+          <Link href="/FAQ" className="hover:text-[#5C53E9] transition">
             FAQ
           </Link>
         </li>

@@ -9,7 +9,7 @@ const AuthButtons = () => {
       </button>
 
       {/* Get Started Button */}
-      <button className="px-4 py-2 bg-[#5C53E9] text-white rounded-md hover:bg-blue-700 transition">
+      <button className="px-4 py-2 bg-[#5C53E9] text-white rounded-md hover:bg-[#554DD3] transition">
         Get Started
       </button>
     </div>
