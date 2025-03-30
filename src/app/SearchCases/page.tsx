@@ -6,6 +6,12 @@ export default function SearchCases() {
   const [cases, setCases] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [enteredPasswords, setEnteredPasswords] = useState<{
+    [key: string]: string;
+  }>({});
+  const [showPasswordPrompt, setShowPasswordPrompt] = useState<{
+    [key: number]: boolean;
+  }>({});
 
   useEffect(() => {
     const storedCases = localStorage.getItem("uploadedCases");
@@ -21,6 +27,24 @@ export default function SearchCases() {
       (selectedCategory === "All" || item.category === selectedCategory) &&
       item.caseName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handlePasswordChange = (index: number, password: string) => {
+    setEnteredPasswords((prev) => ({
+      ...prev,
+      [index]: password,
+    }));
+  };
+
+  const verifyPassword = (index: number, correctPassword: string | null) => {
+    if (enteredPasswords[index] === correctPassword) {
+      setShowPasswordPrompt((prev) => ({
+        ...prev,
+        [index]: false,
+      }));
+    } else {
+      alert("Incorrect password!");
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
@@ -65,17 +89,51 @@ export default function SearchCases() {
                   Public: {item.isPublic ? "Yes" : "No"}
                 </p>
 
-                {item.file && (
-                  <div className="mt-4">
-                    <p className="text-gray-700">File:</p>
-                    <a
-                      href={item.file}
-                      download={item.fileName}
-                      className="text-blue-500 underline"
+                {!item.isPublic ? (
+                  showPasswordPrompt[index] ? (
+                    <div className="mt-2">
+                      <input
+                        type="password"
+                        placeholder="Enter password"
+                        value={enteredPasswords[index] || ""}
+                        onChange={(e) =>
+                          handlePasswordChange(index, e.target.value)
+                        }
+                        className="border border-gray-300 p-2 rounded-lg"
+                      />
+                      <button
+                        className="ml-2 bg-indigo-600 text-white px-4 py-2 rounded-lg"
+                        onClick={() => verifyPassword(index, item.password)}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      className="mt-2 text-blue-600 underline"
+                      onClick={() =>
+                        setShowPasswordPrompt((prev) => ({
+                          ...prev,
+                          [index]: true,
+                        }))
+                      }
                     >
-                      {item.fileName}
-                    </a>
-                  </div>
+                      Enter Password to View
+                    </button>
+                  )
+                ) : (
+                  item.file && (
+                    <div className="mt-4">
+                      <p className="text-gray-700">File:</p>
+                      <a
+                        href={item.file}
+                        download={item.fileName}
+                        className="text-blue-500 underline"
+                      >
+                        {item.fileName}
+                      </a>
+                    </div>
+                  )
                 )}
               </div>
             ))}
