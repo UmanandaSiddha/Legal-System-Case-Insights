@@ -2,9 +2,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function SearchCases() {
+export default function MyCases() {
   const [cases, setCases] = useState<any[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const storedCases = localStorage.getItem("uploadedCases");
@@ -13,28 +12,27 @@ export default function SearchCases() {
     }
   }, []);
 
-  const filteredCases = cases.filter((item) =>
-    item.caseName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleDelete = (index: number) => {
+    const updatedCases = [...cases];
+    updatedCases.splice(index, 1); // Remove the case at the given index
+    setCases(updatedCases);
+    localStorage.setItem("uploadedCases", JSON.stringify(updatedCases));
+    alert("Case deleted successfully!");
+  };
 
   return (
     <div className="min-h-screen text-black p-8">
       <div className="bg-white rounded-lg w-full max-w-6xl mx-auto shadow-lg">
         <div className="px-8 py-6 max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-4">Search Cases</h1>
+          <h1 className="text-3xl font-bold mb-4">My Cases</h1>
 
-          <input
-            type="text"
-            placeholder="Search by case name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="border border-gray-300 p-3 w-full rounded-lg mb-6"
-          />
-
-          {filteredCases.length > 0 ? (
+          {cases.length > 0 ? (
             <div className="space-y-6">
-              {filteredCases.map((item, index) => (
-                <div key={index} className="border p-4 rounded-lg shadow-sm">
+              {cases.map((item, index) => (
+                <div
+                  key={index}
+                  className="border p-4 rounded-lg shadow-sm relative"
+                >
                   <h2 className="text-xl font-semibold">{item.caseName}</h2>
                   <p className="text-gray-600 mb-2">{item.description}</p>
                   <p className="text-gray-500">Category: {item.category}</p>
@@ -54,16 +52,24 @@ export default function SearchCases() {
                       </a>
                     </div>
                   )}
+
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => handleDelete(index)}
+                    className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
             </div>
           ) : (
-            <p>No cases found.</p>
+            <p>No cases uploaded yet.</p>
           )}
 
           <div className="mt-8">
-            <Link href="/MyCases" className="text-purple-600 underline">
-              View My Cases
+            <Link href="/SearchCases" className="text-purple-600 underline">
+              Go to Search Cases
             </Link>
           </div>
         </div>

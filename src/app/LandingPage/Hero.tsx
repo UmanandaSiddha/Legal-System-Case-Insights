@@ -39,9 +39,11 @@ export default function Hero() {
                 </button>
               </Link>
 
+              <Link href="/UploadCase">
               <button className="border border-[#5C53E9] text-[#5C53E9] px-8 py-3 rounded-md text-lg font-medium transition-colors">
                 Upload a new case
               </button>
+              </Link>
             </div>
           </div>
 

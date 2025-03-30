@@ -1,120 +1,86 @@
 "use client";
-
 import { useState } from "react";
-import { Search } from "lucide-react";
-
-// Input Component
-function Input({
-  className,
-  ...props
-}: React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input className={`border p-2 rounded w-full ${className}`} {...props} />
-  );
-}
-
-// Button Component
-function Button({
-  children,
-  className,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      className={`px-4 py-2 bg-purple-600 text-white rounded ${className}`}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
-
-// Card Components
-function Card({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className={`border p-4 rounded shadow ${className}`}>{children}</div>
-  );
-}
-function CardHeader({ children }: { children: React.ReactNode }) {
-  return <div className="mb-2 font-bold">{children}</div>;
-}
-function CardTitle({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-lg font-semibold">{children}</h3>;
-}
-function CardContent({ children }: { children: React.ReactNode }) {
-  return <div className="text-gray-600">{children}</div>;
-}
-
-const groups = [
-  {
-    id: 1,
-    name: "Corporate Legal Team",
-    description: "Lorem ipsum dolor sit amet...",
-    members: 7,
-    cases: 12,
-  },
-  {
-    id: 2,
-    name: "Criminal Defense Team",
-    description: "Dedicated to defending justice...",
-    members: 10,
-    cases: 8,
-  },
-  {
-    id: 3,
-    name: "Privacy Law Experts",
-    description: "Focused on digital privacy rights...",
-    members: 5,
-    cases: 15,
-  },
-  {
-    id: 4,
-    name: "Environmental Law Taskforce",
-    description: "Advocating for environmental policies...",
-    members: 9,
-    cases: 11,
-  },
-];
+import { Search, Users, Folder } from "lucide-react";
 
 export default function BrowseGroups() {
+  const groups = [
+    {
+      id: 1,
+      name: "Corporate Legal Team",
+      description: "Lorem ipsum dolor sit amet...",
+      members: 7,
+      cases: 12,
+    },
+    {
+      id: 2,
+      name: "Corporate Legal Team",
+      description: "Lorem ipsum dolor sit amet...",
+      members: 7,
+      cases: 12,
+    },
+    {
+      id: 3,
+      name: "Corporate Legal Team",
+      description: "Lorem ipsum dolor sit amet...",
+      members: 7,
+      cases: 12,
+    },
+    {
+      id: 4,
+      name: "Corporate Legal Team",
+      description: "Lorem ipsum dolor sit amet...",
+      members: 7,
+      cases: 12,
+    },
+  ];
+
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold">My Groups</h1>
-      <p className="text-gray-600 mb-4">Manage your groups</p>
-      <div className="flex gap-4 mb-6">
-        <Button className="border border-purple-600 text-purple-600 bg-transparent">
-          Join Group
-        </Button>
-        <Button>Create Group</Button>
+    <div className="p-6 max-w-6xl mx-auto text-black">
+      {/* Header section with title and buttons */}
+      <div className="flex justify-between items-center mb-10">
+        <div>
+          <h1 className="text-2xl font-bold mb-1">My Groups</h1>
+          <p className="text-gray-600">Manage your groups</p>
+        </div>
+        <div className="flex gap-4">
+          <button className="px-6 py-3 border border-[#5C53E9] text-[#5C53E9] bg-white rounded-lg font-medium hover:bg-[#5C53E9] hover:text-white transition">
+            Join Group
+          </button>
+          <button className="px-6 py-3 bg-[#5C53E9] text-white rounded-lg font-medium hover:bg-[#4838e3] transition">
+            Create Group
+          </button>
+        </div>
       </div>
+
+      {/* Grid of cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {groups.map((group) => (
-          <Card key={group.id} className="p-6 rounded-lg shadow-md">
-            <CardHeader>
-              <CardTitle>{group.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>{group.description}</p>
-              <div className="flex justify-between items-center mt-4">
-                <p className="text-purple-600 font-semibold">
-                  👥 {group.members} members
-                </p>
-                <p className="text-gray-500">{group.cases} cases</p>
+          <div key={group.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+            <h3 className="text-xl font-bold mb-2">{group.name}</h3>
+            <p className="text-gray-600 mb-4">{group.description}</p>
+
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-center gap-2">
+                <Users className="text-[#5C53E9]" size={20} />
+                <span className="text-[#5C53E9] font-medium">
+                  {group.members} members
+                </span>
               </div>
-              <div className="flex gap-2 mt-4">
-                <Button className="border border-purple-600 text-purple-600 bg-transparent">
-                  Invite
-                </Button>
-                <Button>View Group</Button>
+              <div className="flex items-center gap-2">
+                <Folder className="text-gray-500" size={20} />
+                <span className="text-gray-500">{group.cases} cases</span>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+
+            <div className="flex gap-2">
+              <button className="px-4 py-2 border border-[#5C53E9] text-[#5C53E9] bg-white rounded-lg font-medium hover:bg-[#5C53E9] hover:text-white transition">
+                Invite
+              </button>
+              <button className="px-4 py-2 bg-[#5C53E9] text-white rounded-lg font-medium hover:bg-[#4838e3] transition">
+                View Group
+              </button>
+            </div>
+          </div>
         ))}
       </div>
     </div>

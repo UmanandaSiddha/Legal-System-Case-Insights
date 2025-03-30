@@ -4,14 +4,14 @@ import AuthButtons from "../AuthButtons/AuthButtons";
 
 const Navbar = () => {
   return (
-    <div className="w-full h-20 shadow-md flex justify-between items-center px-8 sticky top-0">
+    <div className="w-full h-20 shadow-md flex justify-between items-center px-8 sticky top-0 bg-white">
       {/* Logo */}
       <div className="text-gray-600 text-lg font-semibold">Legal</div>
 
       {/* Navigation Links */}
       <ul className="flex gap-x-8 text-gray-700">
         <li>
-          <Link href="/LandingPage" className="hover:text-[#5C53E9] transition">
+          <Link href="/" className="hover:text-[#5C53E9] transition">
             Home
           </Link>
         </li>

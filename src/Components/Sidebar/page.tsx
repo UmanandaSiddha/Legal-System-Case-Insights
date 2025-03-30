@@ -26,7 +26,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="w-64 h-screen bg-gray-50 border-r border-gray-200 flex flex-col justify-between fixed top-0 left-0">
+    <div className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col justify-between fixed top-20 left-0 overflow-y-auto">
       <div>
         <div className="p-6">
           <Link href="/">
@@ -58,7 +58,7 @@ const Sidebar = () => {
           </Link>
 
           <Link
-            href="/cases"
+            href="/MyCases"
             className={`flex items-center gap-3 p-4 ${
               isActive("/cases")
                 ? "text-indigo-700 bg-indigo-100 rounded-lg font-bold"
