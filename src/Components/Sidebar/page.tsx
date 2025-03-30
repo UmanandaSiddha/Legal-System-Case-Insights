@@ -83,7 +83,7 @@ const Sidebar = () => {
           </Link>
 
           <Link
-            href="/profile"
+            href="/ProfilePage"
             className={`flex items-center gap-3 p-4 ${
               isActive("/profile")
                 ? "text-indigo-700 bg-indigo-100 rounded-lg font-bold"
