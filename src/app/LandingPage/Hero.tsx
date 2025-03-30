@@ -33,9 +33,11 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-[#5C53E9] hover:bg-[#554DD3] text-white px-8 py-3 rounded-md text-lg font-medium transition-colors">
-                <Link href={"/SearchCases"}>Browse Cases</Link>
-              </button>
+              <Link href={"/SearchCases"}>
+                <button className="bg-[#5C53E9] hover:bg-[#554DD3] text-white px-8 py-3 rounded-md text-lg font-medium transition-colors">
+                  Browse Cases
+                </button>
+              </Link>
 
               <button className="border border-[#5C53E9] text-[#5C53E9] px-8 py-3 rounded-md text-lg font-medium transition-colors">
                 Upload a new case
