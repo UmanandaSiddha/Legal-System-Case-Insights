@@ -10,7 +10,7 @@ export default function SearchCases() {
     [key: string]: string;
   }>({});
   const [showPasswordPrompt, setShowPasswordPrompt] = useState<{
-    [key: number]: boolean;
+    [key: string]: boolean;
   }>({});
 
   useEffect(() => {
@@ -28,19 +28,20 @@ export default function SearchCases() {
       item.caseName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handlePasswordChange = (index: number, password: string) => {
+  const handlePasswordChange = (caseId: string, password: string) => {
     setEnteredPasswords((prev) => ({
       ...prev,
-      [index]: password,
+      [caseId]: password,
     }));
   };
 
-  const verifyPassword = (index: number, correctPassword: string | null) => {
-    if (enteredPasswords[index] === correctPassword) {
+  const verifyPassword = (caseId: string, correctPassword: string | null) => {
+    if (enteredPasswords[caseId] === correctPassword) {
       setShowPasswordPrompt((prev) => ({
         ...prev,
-        [index]: false,
+        [caseId]: false,
       }));
+      window.location.href = `/CaseDetails?id=${caseId}`;
     } else {
       alert("Incorrect password!");
     }
@@ -80,8 +81,8 @@ export default function SearchCases() {
         {/* Case List */}
         {filteredCases.length > 0 ? (
           <div className="space-y-6">
-            {filteredCases.map((item, index) => (
-              <div key={index} className="border p-4 rounded-lg shadow-sm">
+            {filteredCases.map((item) => (
+              <div key={item.id} className="border p-4 rounded-lg shadow-sm">
                 <h2 className="text-xl font-semibold">{item.caseName}</h2>
                 <p className="text-gray-600 mb-2">{item.description}</p>
                 <p className="text-gray-500">Category: {item.category}</p>
@@ -89,21 +90,22 @@ export default function SearchCases() {
                   Public: {item.isPublic ? "Yes" : "No"}
                 </p>
 
+                {/* Private Case: Ask for Password */}
                 {!item.isPublic ? (
-                  showPasswordPrompt[index] ? (
+                  showPasswordPrompt[item.id] ? (
                     <div className="mt-2">
                       <input
                         type="password"
                         placeholder="Enter password"
-                        value={enteredPasswords[index] || ""}
+                        value={enteredPasswords[item.id] || ""}
                         onChange={(e) =>
-                          handlePasswordChange(index, e.target.value)
+                          handlePasswordChange(item.id, e.target.value)
                         }
                         className="border border-gray-300 p-2 rounded-lg"
                       />
                       <button
                         className="ml-2 bg-indigo-600 text-white px-4 py-2 rounded-lg"
-                        onClick={() => verifyPassword(index, item.password)}
+                        onClick={() => verifyPassword(item.id, item.password)}
                       >
                         Submit
                       </button>
@@ -114,7 +116,7 @@ export default function SearchCases() {
                       onClick={() =>
                         setShowPasswordPrompt((prev) => ({
                           ...prev,
-                          [index]: true,
+                          [item.id]: true,
                         }))
                       }
                     >
@@ -122,18 +124,26 @@ export default function SearchCases() {
                     </button>
                   )
                 ) : (
-                  item.file && (
-                    <div className="mt-4">
-                      <p className="text-gray-700">File:</p>
-                      <a
-                        href={item.file}
-                        download={item.fileName}
-                        className="text-blue-500 underline"
-                      >
-                        {item.fileName}
-                      </a>
-                    </div>
-                  )
+                  <Link
+                    href={`/CaseDetails?id=${item.id}`}
+                    className="block mt-2 text-blue-600 underline"
+                  >
+                    View Case Details
+                  </Link>
+                )}
+
+                {/* File Display */}
+                {item.file && (
+                  <div className="mt-4">
+                    <p className="text-gray-700">File:</p>
+                    <a
+                      href={item.file}
+                      download={item.fileName}
+                      className="text-blue-500 underline"
+                    >
+                      {item.fileName}
+                    </a>
+                  </div>
                 )}
               </div>
             ))}

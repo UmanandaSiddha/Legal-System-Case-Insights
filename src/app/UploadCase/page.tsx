@@ -1,14 +1,14 @@
 "use client";
 import { useState, useRef, ChangeEvent } from "react";
+import { v4 as uuidv4 } from "uuid"; // Import UUID for unique case IDs
 
 export default function UploadCase() {
-  const [caseName, setCaseName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
-  const [isPublic, setIsPublic] = useState<boolean>(true);
-  const [password, setPassword] = useState<string>("");
-  const [showCategoryDropdown, setShowCategoryDropdown] =
-    useState<boolean>(false);
+  const [caseName, setCaseName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [isPublic, setIsPublic] = useState(true);
+  const [password, setPassword] = useState("");
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,21 +35,19 @@ export default function UploadCase() {
   };
 
   const handleSubmit = () => {
-    if (
-      !caseName ||
-      !description ||
-      !category ||
-      (!isPublic && !password) ||
-      !file
-    ) {
+    if (!caseName || !description || !category || (!isPublic && !password) || !file) {
       alert("Please fill out all fields and upload a file.");
       return;
     }
 
-    // Prepare the case data
+    // Generate unique case ID
+    const caseId = uuidv4();
+
+    // Read file as base64 and store it
     const reader = new FileReader();
     reader.onload = () => {
       const caseData = {
+        id: caseId,
         caseName,
         description,
         category,
@@ -68,26 +66,14 @@ export default function UploadCase() {
       alert("Case uploaded successfully!");
 
       // Clear form fields
-      setCaseName("");
-      setDescription("");
-      setCategory("");
-      setIsPublic(true);
-      setPassword("");
-      setFile(null);
+      handleCancel();
     };
 
     reader.readAsDataURL(file);
   };
 
   // Array of category options
-  const categoryOptions: string[] = [
-    "Civil",
-    "Criminal",
-    "Corporate",
-    "Family",
-    "Environmental",
-    "Others",
-  ];
+  const categoryOptions = ["Civil", "Criminal", "Corporate", "Family", "Environmental", "Others"];
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
