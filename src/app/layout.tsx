@@ -1,3 +1,5 @@
+import Sidebar from "@/Components/Sidebar/page";
+
 import type { Metadata } from "next";
 import Navbar from "../Components/Navigation/navbar";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -30,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
+        <Sidebar />
         {children}
       </body>
     </html>
