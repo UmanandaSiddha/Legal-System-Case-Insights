@@ -1,6 +1,7 @@
 // pages/index.js
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -33,7 +34,7 @@ export default function Hero() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <button className="bg-[#5C53E9] hover:bg-[#554DD3] text-white px-8 py-3 rounded-md text-lg font-medium transition-colors">
-                Browse Cases
+                <Link href={"/BrowseCases"}>Browse Cases</Link>
               </button>
 
               <button className="border border-[#5C53E9] text-[#5C53E9] px-8 py-3 rounded-md text-lg font-medium transition-colors">
