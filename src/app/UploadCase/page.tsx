@@ -34,42 +34,38 @@ export default function UploadCase() {
     setFile(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!caseName || !description || !category || (!isPublic && !password) || !file) {
       alert("Please fill out all fields and upload a file.");
       return;
     }
-
-    // Generate unique case ID
-    const caseId = uuidv4();
-
-    // Read file as base64 and store it
-    const reader = new FileReader();
-    reader.onload = () => {
-      const caseData = {
-        id: caseId,
-        caseName,
-        description,
-        category,
-        isPublic,
-        password: isPublic ? null : password,
-        file: reader.result, // Store file data as base64
-        fileName: file.name,
-      };
-
-      const storedCases = localStorage.getItem("uploadedCases");
-      const cases = storedCases ? JSON.parse(storedCases) : [];
-
-      cases.push(caseData);
-      localStorage.setItem("uploadedCases", JSON.stringify(cases));
-
-      alert("Case uploaded successfully!");
-
-      // Clear form fields
-      handleCancel();
-    };
-
-    reader.readAsDataURL(file);
+  
+    const formData = new FormData();
+    formData.append("caseName", caseName);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("isPublic", isPublic.toString());
+    if (!isPublic) formData.append("password", password);
+    formData.append("file", file);
+  
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        alert("Case uploaded and file saved successfully!");
+        handleCancel();
+      } else {
+        alert("Upload failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      alert("Error uploading case.");
+    }
   };
 
   // Array of category options
