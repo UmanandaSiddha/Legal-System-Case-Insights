@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Markdown from "react-markdown";
 
 export default function CaseDetails() {
   const searchParams = useSearchParams();
@@ -76,7 +77,9 @@ export default function CaseDetails() {
             {/* Case Summary */}
             <div className="border p-4 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold">Case Summary</h2>
-              <p className="text-gray-600">{caseData.description}</p>
+              <div style={{ fontFamily: "Arial" }}>
+                 <Markdown>{caseData.summary}</Markdown>
+              </div>
             </div>
 
             {/* Case Files */}

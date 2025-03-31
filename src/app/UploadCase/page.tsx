@@ -41,30 +41,51 @@ export default function UploadCase() {
     }
   
     const formData = new FormData();
-    formData.append("caseName", caseName);
-    formData.append("description", description);
-    formData.append("category", category);
-    formData.append("isPublic", isPublic.toString());
-    if (!isPublic) formData.append("password", password);
     formData.append("file", file);
   
     try {
-      const response = await fetch("/api/upload", {
+      const response = await fetch("http://127.0.0.1:5000/upload-pdf", {
         method: "POST",
         body: formData,
       });
   
       const data = await response.json();
   
-      if (data.success) {
-        alert("Case uploaded and file saved successfully!");
-        handleCancel();
+      if (response.ok) {
+        const reader = new FileReader();
+  
+        reader.onload = () => {
+          const fileBase64 = reader.result;
+  
+          const caseData = {
+            id: uuidv4(),
+            caseName,
+            description,
+            category,
+            isPublic,
+            password: isPublic ? null : password,
+            file: fileBase64,
+            fileName: file.name,
+            summary: data.gemini_response || "No summary returned",
+          };
+  
+          const storedCases = localStorage.getItem("uploadedCases");
+          const cases = storedCases ? JSON.parse(storedCases) : [];
+  
+          cases.push(caseData);
+          localStorage.setItem("uploadedCases", JSON.stringify(cases));
+  
+          alert("✅ Case uploaded, analyzed, and saved locally!");
+          handleCancel();
+        };
+  
+        reader.readAsDataURL(file);
       } else {
-        alert("Upload failed. Please try again.");
+        alert(`❌ Upload failed: ${data.error}`);
       }
     } catch (err) {
       console.error("Upload error:", err);
-      alert("Error uploading case.");
+      alert("⚠️ Error uploading case.");
     }
   };
 
